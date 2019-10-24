@@ -3,4 +3,8 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="order_list">Order List</string>
+    <string name="product_list">Product List</string>
+    <string name="admin">Admin</string>
+    <string name="customer">Customer</string>
 </resources>
