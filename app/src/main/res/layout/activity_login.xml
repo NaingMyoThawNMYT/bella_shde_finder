@@ -8,11 +8,12 @@
     android:padding="16dp"
     tools:context=".activity.LoginActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="200dp"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:src="@android:drawable/alert_dark_frame" />
+        android:text="@string/app_name"
+        android:textSize="26sp" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edt_email"
@@ -59,8 +60,8 @@
             android:layout_gravity="top"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:text="Skip?"
             android:onClick="goToCustomerActivity"
+            android:text="Skip?"
             android:textAllCaps="false"
             android:visibility="gone" />
 
