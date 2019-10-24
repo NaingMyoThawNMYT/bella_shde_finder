@@ -17,10 +17,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToAdminActivity(View v) {
-        startActivity(new Intent(this, AdminActivity.class));
+        Intent i = new Intent(this, LoginActivity.class);
+        i.putExtra(LoginActivity.KEY_ADMIN_MODE, true);
+        startActivity(i);
     }
 
     public void goToCustomerActivity(View v) {
-        startActivity(new Intent(this, CustomerActivity.class));
+        Intent i = new Intent(this, LoginActivity.class);
+        i.putExtra(LoginActivity.KEY_ADMIN_MODE, false);
+        startActivity(i);
     }
 }
