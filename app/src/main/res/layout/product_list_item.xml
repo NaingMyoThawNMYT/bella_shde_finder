@@ -33,14 +33,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_product_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Product Name" />
+                android:layout_height="wrap_content" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_product_price"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1000 Kyats" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

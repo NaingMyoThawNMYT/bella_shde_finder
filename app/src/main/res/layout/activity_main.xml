@@ -21,7 +21,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:onClick="goToAdminActivity"
-        android:text="@string/admin"
+        android:text="@string/is_admin"
         android:textAllCaps="false"
         android:textSize="22sp" />
 
@@ -32,7 +32,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:onClick="goToCustomerActivity"
-        android:text="@string/customer"
+        android:text="@string/is_customer"
         android:textAllCaps="false"
         android:textSize="22sp" />
 
