@@ -1,7 +1,7 @@
 package com.example.bellashdefinder.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +37,9 @@ public class ProductListActivity extends AppCompatActivity {
         adapter = new ProductListAdapter(productList, new ProductListAdapter.OnClickListener() {
             @Override
             public void onClick(Product product) {
-                Toast.makeText(ProductListActivity.this, product.getName(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(ProductListActivity.this, ProductDetailActivity.class);
+                i.putExtra(ProductDetailActivity.KEY_PRODUCT, product);
+                startActivity(i);
             }
         });
         rv.setAdapter(adapter);

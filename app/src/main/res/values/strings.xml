@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bella Shde Finder</string>
+    <string name="app_name">Bella Shade Finder</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
@@ -8,4 +8,16 @@
     <string name="is_admin">Admin?</string>
     <string name="is_customer">Customer?</string>
     <string name="is_skip">Skip?</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="price">Price</string>
+    <string name="name">Name</string>
+
+    <string-array name="Categories">
+        <item>Foundation</item>
+        <item>Bronzer</item>
+        <item>Primer</item>
+        <item>Powder</item>
+    </string-array>
+
 </resources>

@@ -1,6 +1,8 @@
 package com.example.bellashdefinder.model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private String imageUrl;
     private String name;
     private double price;
