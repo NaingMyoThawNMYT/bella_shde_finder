@@ -1,7 +1,11 @@
 package com.example.bellashdefinder.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -23,6 +27,8 @@ public class OrderDetailActivity extends AppCompatActivity {
             tvCustomerPhone,
             tvCustomerEmail;
 
+    private String invoiceNo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +49,9 @@ public class OrderDetailActivity extends AppCompatActivity {
             Order order = (Order) b.get(KEY_ORDER);
 
             if (order != null) {
-                tvInvoiceNo.setText(String.valueOf(System.currentTimeMillis()));
+                invoiceNo = String.valueOf(System.currentTimeMillis());
+
+                tvInvoiceNo.setText(invoiceNo);
                 tvProductName.setText(order.getProduct().getName());
                 tvProductPrice.setText(String.valueOf(NumberUtil.getOneDigit(order.getProduct().getPrice())));
                 tvProductCategory.setText(order.getProduct().getCategory());
@@ -53,5 +61,21 @@ public class OrderDetailActivity extends AppCompatActivity {
                 tvCustomerEmail.setText(order.getCustomer().getEmail());
             }
         }
+    }
+
+    public void showInvoicedCompleteDialog(View v) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Successfully invoiced " + invoiceNo);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                finish();
+            }
+        });
+
+        Dialog dialog = builder.create();
+        dialog.show();
     }
 }
