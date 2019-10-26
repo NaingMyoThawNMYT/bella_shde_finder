@@ -1,24 +1,17 @@
 package com.example.bellashdefinder.model;
 
-public class Order {
-    private String customer;
-    private String address;
+import java.io.Serializable;
+
+public class Order implements Serializable {
+    private Customer customer;
     private Product product;
 
-    public String getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(String customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public Product getProduct() {

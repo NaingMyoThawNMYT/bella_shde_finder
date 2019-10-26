@@ -1,13 +1,14 @@
 package com.example.bellashdefinder.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.adapter.OrderListAdapter;
+import com.example.bellashdefinder.model.Customer;
 import com.example.bellashdefinder.model.Order;
 import com.example.bellashdefinder.model.Product;
 
@@ -26,13 +27,21 @@ public class OrderListActivity extends AppCompatActivity {
 
         List<Order> orderList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            Product product = new Product();
-            product.setName(String.valueOf(i));
 
             Order order = new Order();
-            order.setCustomer(String.valueOf(i));
+
+            Customer customer = new Customer();
+            customer.setName("Name" + i);
+            customer.setAddress("Address" + i);
+            customer.setPhone("Phone" + i);
+            customer.setEmail("Email" + i);
+            order.setCustomer(customer);
+
+            Product product = new Product();
+            product.setName("Product" + i);
+            product.setPrice(i);
+            product.setCategory("Category" + i);
             order.setProduct(product);
-            order.setAddress(String.valueOf(i));
 
             orderList.add(order);
         }
@@ -40,7 +49,9 @@ public class OrderListActivity extends AppCompatActivity {
         OrderListAdapter adapter = new OrderListAdapter(orderList, new OrderListAdapter.OnClickListener() {
             @Override
             public void onClick(Order order) {
-                Toast.makeText(OrderListActivity.this, order.getCustomer(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(OrderListActivity.this, OrderDetailActivity.class);
+                i.putExtra(OrderDetailActivity.KEY_ORDER, order);
+                startActivity(i);
             }
         });
         rv.setAdapter(adapter);

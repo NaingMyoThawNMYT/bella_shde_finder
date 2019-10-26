@@ -19,5 +19,7 @@
     <string name="address">Address</string>
     <string name="product">Product</string>
     <string name="customer">Customer</string>
+    <string name="invoice">Invoice</string>
+    <string name="phone">Phone</string>
 
 </resources>

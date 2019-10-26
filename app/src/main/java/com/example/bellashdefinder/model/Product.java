@@ -6,6 +6,7 @@ public class Product implements Serializable {
     private String imageUrl;
     private String name;
     private double price;
+    private String category;
 
     public String getImageUrl() {
         return imageUrl;
@@ -29,5 +30,13 @@ public class Product implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

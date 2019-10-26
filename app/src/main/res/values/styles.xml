@@ -33,4 +33,8 @@
         <item name="android:paddingEnd">16dp</item>
     </style>
 
+    <style name="FormRightFieldWithBackground" parent="FormRightFieldWithoutBackground">
+        <item name="android:background">@drawable/bg_rounded</item>
+    </style>
+
 </resources>
