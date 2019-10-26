@@ -21,5 +21,8 @@
     <string name="customer">Customer</string>
     <string name="invoice">Invoice</string>
     <string name="phone">Phone</string>
-
+    <string name="foundation">Foundation</string>
+    <string name="bronzer">Bronzer</string>
+    <string name="primer">Primer</string>
+    <string name="powder">Powder</string>
 </resources>
