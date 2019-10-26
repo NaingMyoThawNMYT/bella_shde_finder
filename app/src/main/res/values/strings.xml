@@ -16,5 +16,8 @@
     <string name="what_s_your_skin_type">What\'s your skin type?</string>
     <string name="which_finish_fits_your_look">Which finish fits your look?</string>
     <string name="which_shade_family_best_fits_your_skin_tone">Which shade family best fits your skin tone?</string>
+    <string name="address">Address</string>
+    <string name="product">Product</string>
+    <string name="customer">Customer</string>
 
 </resources>
