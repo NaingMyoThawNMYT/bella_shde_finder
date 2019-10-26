@@ -54,10 +54,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (b != null && b.containsKey(KEY_PRODUCT)) {
             Product product = (Product) b.get(KEY_PRODUCT);
 
-            assert product != null;
-
-            edtName.setText(product.getName());
-            edtPrice.setText(String.valueOf(NumberUtil.getOneDigit(product.getPrice())));
+            if (product != null) {
+                edtName.setText(product.getName());
+                edtPrice.setText(String.valueOf(NumberUtil.getOneDigit(product.getPrice())));
+            }
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -126,5 +126,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(i, REQUEST_PICK_IMAGE);
+    }
+
+    public void discard(View v) {
+        finish();
     }
 }

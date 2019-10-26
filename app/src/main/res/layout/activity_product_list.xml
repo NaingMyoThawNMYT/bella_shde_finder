@@ -19,6 +19,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spn_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_title" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_product_list"
         android:layout_width="0dp"
@@ -27,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_app_title"
+        app:layout_constraintTop_toBottomOf="@+id/spn_category"
         tools:listitem="@layout/product_list_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
