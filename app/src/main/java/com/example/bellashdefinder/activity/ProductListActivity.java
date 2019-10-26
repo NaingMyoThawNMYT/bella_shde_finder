@@ -1,5 +1,8 @@
 package com.example.bellashdefinder.activity;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +51,11 @@ public class ProductListActivity extends AppCompatActivity {
             public void onClick(Product product) {
                 goToProductDetailActivity(product);
             }
+
+            @Override
+            public void onLongClick(Product product) {
+                showProductDeleteConfirmDialog(ProductListActivity.this, product);
+            }
         });
         rv.setAdapter(adapter);
 
@@ -81,5 +90,20 @@ public class ProductListActivity extends AppCompatActivity {
         Intent i = new Intent(ProductListActivity.this, ProductDetailActivity.class);
         i.putExtra(ProductDetailActivity.KEY_PRODUCT, product);
         startActivity(i);
+    }
+
+    private void showProductDeleteConfirmDialog(final Context context, final Product product) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Are you sure?");
+        builder.setMessage("Delete " + product.getName() + "?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        Dialog dialog = builder.create();
+        dialog.show();
     }
 }

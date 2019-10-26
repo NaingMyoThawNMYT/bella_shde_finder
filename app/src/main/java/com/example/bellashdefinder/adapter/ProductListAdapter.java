@@ -45,6 +45,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 onClickListener.onClick(product);
             }
         });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onClickListener.onLongClick(product);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -54,6 +62,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public interface OnClickListener {
         void onClick(Product product);
+
+        void onLongClick(Product product);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
