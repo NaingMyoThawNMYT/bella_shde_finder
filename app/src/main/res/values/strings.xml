@@ -12,12 +12,9 @@
     <string name="discard">Discard</string>
     <string name="price">Price</string>
     <string name="name">Name</string>
-
-    <string-array name="Categories">
-        <item>Foundation</item>
-        <item>Bronzer</item>
-        <item>Primer</item>
-        <item>Powder</item>
-    </string-array>
+    <string name="category">Category</string>
+    <string name="what_s_your_skin_type">What\'s your skin type?</string>
+    <string name="which_finish_fits_your_look">Which finish fits your look?</string>
+    <string name="which_shade_family_best_fits_your_skin_tone">Which shade family best fits your skin tone?</string>
 
 </resources>

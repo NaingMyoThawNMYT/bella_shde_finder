@@ -9,7 +9,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/discard_and_save_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -84,9 +84,66 @@
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/edt_price"
                         style="@style/FormRightFieldWithoutBackground"
-                        android:inputType="text" />
+                        android:inputType="number" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    style="@style/FormFieldLayout"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        style="@style/FormLeftLabel"
+                        android:text="@string/category" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spn_category"
+                        style="@style/FormRightFieldWithoutBackground"
+                        android:background="@drawable/bg_rounded" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/what_s_your_skin_type" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_skin_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/answer_list_item" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/which_finish_fits_your_look" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_finish_fits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/answer_list_item" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/which_shade_family_best_fits_your_skin_tone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_shade_family"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/answer_list_item" />
 
             </LinearLayout>
 
@@ -95,6 +152,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/discard_and_save_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -120,6 +178,7 @@
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
             android:background="@drawable/bg_rounded"
+            android:onClick="saveProduct"
             android:text="@string/save"
             android:textAllCaps="false" />
 
