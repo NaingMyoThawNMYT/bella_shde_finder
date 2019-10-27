@@ -1,5 +1,6 @@
 package com.example.bellashdefinder.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -41,6 +42,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private AppCompatImageView imgView;
 
     private AnswerListAdapter skinTypeAdapter, finishFitsAdapter, shadeFamilyAdapter;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         shadeFamilyAdapter = new AnswerListAdapter(DataSet.getShadeFamilyList());
         rvShadeFamily.setAdapter(shadeFamilyAdapter);
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
     }
 
     public void saveProduct(View v) {
@@ -112,9 +117,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         product.setId(myRef.push().getKey());
 
+        dialog.show();
+
         myRef.child(product.getId()).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                dialog.dismiss();
+
                 if (task.isSuccessful()) {
                     finish();
                 }

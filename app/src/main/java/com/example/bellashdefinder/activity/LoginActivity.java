@@ -1,5 +1,6 @@
 package com.example.bellashdefinder.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    private ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
     }
 
     public void login(View v) {
@@ -61,10 +67,14 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        dialog.show();
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        dialog.dismiss();
+
                         if (task.isSuccessful()) {
                             // Sign in success
                             if (adminMode) {
