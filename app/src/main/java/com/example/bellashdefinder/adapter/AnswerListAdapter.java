@@ -18,9 +18,15 @@ import java.util.List;
 
 public class AnswerListAdapter extends RecyclerView.Adapter<AnswerListAdapter.ViewHolder> {
     private List<Answer> dataSet;
+    private View.OnClickListener onClickListener;
 
     public AnswerListAdapter(List<Answer> dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public AnswerListAdapter(List<Answer> dataSet, View.OnClickListener onClickListener) {
+        this.dataSet = dataSet;
+        this.onClickListener = onClickListener;
     }
 
     @NonNull
@@ -57,6 +63,8 @@ public class AnswerListAdapter extends RecyclerView.Adapter<AnswerListAdapter.Vi
                 answer.setSelected(true);
 
                 notifyDataSetChanged();
+
+                onClickListener.onClick(v);
             }
         });
     }

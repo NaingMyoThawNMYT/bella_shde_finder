@@ -1,7 +1,7 @@
 package com.example.bellashdefinder.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,9 +24,11 @@ public class SearchActivity extends AppCompatActivity {
     private int questionIndex = 0;
     private Map<String, Answer> answerMap = new HashMap<>();
     private Map<String, List<Answer>> questionMap = new HashMap<>();
+    private String category;
 
     private RecyclerView rvQuestion;
     private AnswerListAdapter adapter;
+    private AppCompatButton btnNextOrFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +36,11 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         rvQuestion = findViewById(R.id.rv_question);
+        btnNextOrFinish = findViewById(R.id.btn_next_or_finish);
 
         Bundle b = getIntent().getExtras();
         if (b != null && b.containsKey(KEY_CATEGORY)) {
-            String category = b.getString(KEY_CATEGORY);
-
-            if (TextUtils.isEmpty(category)) {
-                return;
-            }
-
-            Toast.makeText(this, category, Toast.LENGTH_SHORT).show();
+            category = b.getString(KEY_CATEGORY);
         }
 
         for (String question : DataSet.questionList) {
@@ -87,6 +84,10 @@ public class SearchActivity extends AppCompatActivity {
                         "\n" + answerMap.get(DataSet.questionList[1]) +
                         "\n" + answerMap.get(DataSet.questionList[2]),
                 Toast.LENGTH_SHORT).show();
+
+        // TODO: 10/27/2019 find result and pass category and product to result activity
+        Intent i = new Intent(this, ResultActivity.class);
+        startActivity(i);
     }
 
     private void saveAnswer(String question) {
@@ -96,11 +97,13 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void changeQuestion(final int questionIndex) {
+        btnNextOrFinish.setEnabled(answerMap.get(DataSet.questionList[questionIndex]) != null);
+
         findViewById(R.id.btn_back).setVisibility(questionIndex <= 0 ? View.INVISIBLE : View.VISIBLE);
 
-        ((AppCompatButton) findViewById(R.id.btn_next_or_finish)).setText(getString(questionIndex == DataSet.questionList.length - 1 ? R.string.finish : R.string.next));
+        btnNextOrFinish.setText(getString(questionIndex == DataSet.questionList.length - 1 ? R.string.finish : R.string.next));
 
-        findViewById(R.id.btn_next_or_finish).setOnClickListener(new View.OnClickListener() {
+        btnNextOrFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (questionIndex == DataSet.questionList.length - 1) {
@@ -114,7 +117,14 @@ public class SearchActivity extends AppCompatActivity {
 
         ((AppCompatTextView) findViewById(R.id.tv_question)).setText(DataSet.questionList[questionIndex]);
 
-        adapter = new AnswerListAdapter(questionMap.get(DataSet.questionList[questionIndex]));
+        adapter = new AnswerListAdapter(questionMap.get(DataSet.questionList[questionIndex]),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btnNextOrFinish.setEnabled(true);
+                    }
+                });
+
         rvQuestion.setAdapter(adapter);
     }
 }
