@@ -1,5 +1,7 @@
 package com.example.bellashdefinder.model;
 
+import androidx.annotation.NonNull;
+
 public class Answer {
     private String answer;
     private String color;
@@ -27,5 +29,11 @@ public class Answer {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return answer;
     }
 }

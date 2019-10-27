@@ -12,6 +12,10 @@ public class DataSet {
             "Primer",
             "Powder"};
 
+    public static final String[] questionList = new String[]{"What\'s your skin type?",
+            "Which finish fits your look?",
+            "Which shade family best fits your skin tone?"};
+
     public static List<Answer> getSkinTypeList() {
         Answer a = new Answer();
         Answer b = new Answer();
