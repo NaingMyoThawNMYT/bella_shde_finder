@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.util.DataSet;
@@ -42,5 +43,14 @@ public class CustomerActivity extends AppCompatActivity {
         Intent i = new Intent(this, SearchActivity.class);
         i.putExtra(SearchActivity.KEY_CATEGORY, category);
         startActivity(i);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (findViewById(R.id.btn_cart) != null) {
+            ((AppCompatButton) findViewById(R.id.btn_cart)).setText(String.valueOf(DataSet.cart.size()));
+        }
     }
 }

@@ -88,6 +88,8 @@ public class SearchActivity extends AppCompatActivity {
         // TODO: 10/27/2019 find result and pass category and product to result activity
         Intent i = new Intent(this, ResultActivity.class);
         startActivity(i);
+
+        finish();
     }
 
     private void saveAnswer(String question) {

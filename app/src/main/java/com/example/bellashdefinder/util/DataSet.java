@@ -1,6 +1,7 @@
 package com.example.bellashdefinder.util;
 
 import com.example.bellashdefinder.model.Answer;
+import com.example.bellashdefinder.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ public class DataSet {
     public static final String[] questionList = new String[]{"What\'s your skin type?",
             "Which finish fits your look?",
             "Which shade family best fits your skin tone?"};
+
+    public static final List<Product> cart = new ArrayList<>();
 
     public static List<Answer> getSkinTypeList() {
         Answer a = new Answer();
