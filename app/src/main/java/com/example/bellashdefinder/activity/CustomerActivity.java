@@ -53,4 +53,8 @@ public class CustomerActivity extends AppCompatActivity {
             ((AppCompatButton) findViewById(R.id.btn_cart)).setText(String.valueOf(DataSet.cart.size()));
         }
     }
+
+    public void goToCartActivity(View v) {
+        startActivity(new Intent(this, CartActivity.class));
+    }
 }

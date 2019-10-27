@@ -8,6 +8,7 @@
     android:drawableStart="@drawable/ic_shopping_cart"
     android:drawableLeft="@drawable/ic_shopping_cart"
     android:gravity="end|center"
+    android:onClick="goToCartActivity"
     android:paddingStart="16dp"
     android:paddingTop="4dp"
     android:paddingEnd="16dp"
