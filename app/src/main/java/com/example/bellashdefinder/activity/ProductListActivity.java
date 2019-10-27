@@ -18,17 +18,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.adapter.ProductListAdapter;
 import com.example.bellashdefinder.model.Product;
+import com.example.bellashdefinder.storage.FirebaseDatabaseHelper;
 import com.example.bellashdefinder.util.DataSet;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ProductListActivity extends AppCompatActivity {
     private RecyclerView rv;
     private AppCompatSpinner categorySpinner;
 
     private ProductListAdapter adapter;
-    private List<Product> productList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +43,7 @@ public class ProductListActivity extends AppCompatActivity {
         rv = findViewById(R.id.rv_product_list);
         categorySpinner = findViewById(R.id.spn_category);
 
-        productList = new ArrayList<>();
-        for (int i = 1; i <= 100; i++) {
-            Product product = new Product();
-            product.setName("Name " + i);
-            product.setPrice(i * 1000);
-            productList.add(product);
-        }
-
-        adapter = new ProductListAdapter(productList, new ProductListAdapter.OnClickListener() {
+        adapter = new ProductListAdapter(new ArrayList<Product>(), new ProductListAdapter.OnClickListener() {
             @Override
             public void onClick(Product product) {
                 goToProductDetailActivity(product);
@@ -105,5 +102,51 @@ public class ProductListActivity extends AppCompatActivity {
 
         Dialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        fetchAndSetProductList();
+    }
+
+    private void fetchAndSetProductList() {
+        DatabaseReference tableProduct = FirebaseDatabaseHelper.getTableProduct();
+        // Read from the database
+        tableProduct.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.setDataSet(parseProductList((Map<String, Object>) dataSnapshot.getValue()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+    }
+
+    private List<Product> parseProductList(Map<String, Object> map) {
+        List<Product> productList = new ArrayList<>();
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            productList.add(parseProduct((Map) entry.getValue()));
+        }
+
+        return productList;
+    }
+
+    private Product parseProduct(Map entry) {
+        Product product = new Product();
+
+        product.setCategory(String.valueOf(entry.get("category")));
+        product.setFinishFit(String.valueOf(entry.get("finishFit")));
+        product.setId(String.valueOf(entry.get("id")));
+        product.setName(String.valueOf(entry.get("name")));
+        product.setPrice(Double.valueOf(String.valueOf(entry.get("price"))));
+        product.setShadeFamily(String.valueOf(entry.get("shadeFamily")));
+        product.setSkinType(String.valueOf(entry.get("skinType")));
+
+        return product;
     }
 }

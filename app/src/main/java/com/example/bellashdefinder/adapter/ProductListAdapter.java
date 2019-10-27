@@ -24,6 +24,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         this.onClickListener = onClickListener;
     }
 
+    public void setDataSet(List<Product> dataSet) {
+        this.dataSet = dataSet;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
