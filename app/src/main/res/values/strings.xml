@@ -30,4 +30,6 @@
     <string name="finish">Finish</string>
     <string name="add_to_cart">Add to cart</string>
     <string name="shop_now">Shop Now</string>
+    <string name="order">Order</string>
+    <string name="register_and_order">Register and Order</string>
 </resources>

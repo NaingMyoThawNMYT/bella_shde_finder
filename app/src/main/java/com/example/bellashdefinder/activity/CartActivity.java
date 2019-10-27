@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,5 +64,9 @@ public class CartActivity extends AppCompatActivity {
 
         Dialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void goToRegistrationActivity(View v) {
+        startActivity(new Intent(this, RegistrationActivity.class));
     }
 }

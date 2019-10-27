@@ -37,6 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rounded"
+        android:onClick="goToRegistrationActivity"
         android:text="@string/shop_now"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
