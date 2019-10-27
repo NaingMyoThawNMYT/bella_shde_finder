@@ -64,7 +64,9 @@ public class AnswerListAdapter extends RecyclerView.Adapter<AnswerListAdapter.Vi
 
                 notifyDataSetChanged();
 
-                onClickListener.onClick(v);
+                if (onClickListener != null) {
+                    onClickListener.onClick(v);
+                }
             }
         });
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -20,8 +21,12 @@ import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.adapter.AnswerListAdapter;
 import com.example.bellashdefinder.model.Answer;
 import com.example.bellashdefinder.model.Product;
+import com.example.bellashdefinder.storage.FirebaseDatabaseHelper;
 import com.example.bellashdefinder.util.DataSet;
 import com.example.bellashdefinder.util.NumberUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 
 import java.io.IOException;
 
@@ -85,11 +90,36 @@ public class ProductDetailActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this,
-                skinTypeAnswer.getAnswer() +
-                        "\n" + finishFitAnswer.getAnswer() +
-                        "\n" + shadeFamilyAnswer.getAnswer(),
-                Toast.LENGTH_SHORT).show();
+        if (edtName.getText() == null) {
+            Toast.makeText(this, "Please enter name!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (edtPrice.getText() == null) {
+            Toast.makeText(this, "Please enter price!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Product product = new Product();
+        product.setName(edtName.getText().toString());
+        product.setPrice(Double.valueOf(edtPrice.getText().toString()));
+        product.setCategory((String) categorySpinner.getSelectedItem());
+        product.setSkinType(skinTypeAnswer.getAnswer());
+        product.setFinishFit(finishFitAnswer.getAnswer());
+        product.setShadeFamily(shadeFamilyAnswer.getAnswer());
+
+        DatabaseReference myRef = FirebaseDatabaseHelper.getTableProduct();
+
+        product.setId(myRef.push().getKey());
+
+        myRef.child(product.getId()).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    finish();
+                }
+            }
+        });
     }
 
     @Override
