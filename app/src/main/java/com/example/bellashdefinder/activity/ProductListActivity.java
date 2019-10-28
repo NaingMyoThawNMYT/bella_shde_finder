@@ -101,21 +101,18 @@ public class ProductListActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    private void showProductDeleteConfirmDialog(final Context context, final Product product) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Are you sure?");
-        builder.setMessage("Delete " + product.getName() + "?");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                tableProduct.child(product.getId()).removeValue();
+    public static List<Product> parseProductList(Map<String, Object> map) {
+        List<Product> productList = new ArrayList<>();
 
-                storageRef.child(product.getId()).delete();
-            }
-        });
+        if (map == null) {
+            return productList;
+        }
 
-        Dialog dialog = builder.create();
-        dialog.show();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            productList.add(parseProduct((Map) entry.getValue()));
+        }
+
+        return productList;
     }
 
     @Override
@@ -146,21 +143,7 @@ public class ProductListActivity extends AppCompatActivity {
         });
     }
 
-    private List<Product> parseProductList(Map<String, Object> map) {
-        List<Product> productList = new ArrayList<>();
-
-        if (map == null) {
-            return productList;
-        }
-
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            productList.add(parseProduct((Map) entry.getValue()));
-        }
-
-        return productList;
-    }
-
-    private Product parseProduct(Map entry) {
+    private static Product parseProduct(Map entry) {
         Product product = new Product();
 
         product.setCategory(String.valueOf(entry.get("category")));
@@ -172,5 +155,24 @@ public class ProductListActivity extends AppCompatActivity {
         product.setSkinType(String.valueOf(entry.get("skinType")));
 
         return product;
+    }
+
+    private void showProductDeleteConfirmDialog(final Context context, final Product product) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Are you sure?");
+        builder.setMessage("Delete " + product.getName() + "?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                tableProduct.child(product.getId()).removeValue();
+
+                storageRef.child(product.getId()).delete();
+
+                DataSet.photos.put(product.getId(), null);
+            }
+        });
+
+        Dialog dialog = builder.create();
+        dialog.show();
     }
 }

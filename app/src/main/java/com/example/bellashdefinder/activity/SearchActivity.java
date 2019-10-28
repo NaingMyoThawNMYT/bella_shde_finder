@@ -1,10 +1,12 @@
 package com.example.bellashdefinder.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -13,7 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.adapter.AnswerListAdapter;
 import com.example.bellashdefinder.model.Answer;
+import com.example.bellashdefinder.model.Product;
+import com.example.bellashdefinder.storage.FirebaseDatabaseHelper;
 import com.example.bellashdefinder.util.DataSet;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +34,8 @@ public class SearchActivity extends AppCompatActivity {
     private Map<String, Answer> answerMap = new HashMap<>();
     private Map<String, List<Answer>> questionMap = new HashMap<>();
     private String category;
+    private DatabaseReference tableProduct;
+    private ProgressDialog dialog;
 
     private RecyclerView rvQuestion;
     private AnswerListAdapter adapter;
@@ -52,6 +63,11 @@ public class SearchActivity extends AppCompatActivity {
         questionMap.put(DataSet.questionList[2], DataSet.getShadeFamilyList());
 
         changeQuestion(questionIndex);
+
+        tableProduct = FirebaseDatabaseHelper.getTableProduct();
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
     }
 
     public void back(View v) {
@@ -79,17 +95,38 @@ public class SearchActivity extends AppCompatActivity {
     private void finish(int questionIndex) {
         saveAnswer(DataSet.questionList[questionIndex]);
 
-        Toast.makeText(this,
-                answerMap.get(DataSet.questionList[0]) +
-                        "\n" + answerMap.get(DataSet.questionList[1]) +
-                        "\n" + answerMap.get(DataSet.questionList[2]),
-                Toast.LENGTH_SHORT).show();
+        dialog.show();
 
-        // TODO: 10/27/2019 find result and pass category and product to result activity
-        Intent i = new Intent(this, ResultActivity.class);
-        startActivity(i);
+        Query query = tableProduct.orderByChild("category").equalTo(category);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dialog.dismiss();
 
-        finish();
+                List<Product> productList = ProductListActivity.parseProductList((Map<String, Object>) dataSnapshot.getValue());
+                Product product = filterProduct(category,
+                        answerMap.get(DataSet.questionList[0]).getAnswer(),
+                        answerMap.get(DataSet.questionList[1]).getAnswer(),
+                        answerMap.get(DataSet.questionList[2]).getAnswer(),
+                        productList);
+
+                if (product == null) {
+                    Toast.makeText(SearchActivity.this, "No result found", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Intent i = new Intent(SearchActivity.this, ResultActivity.class);
+                i.putExtra(ProductDetailActivity.KEY_PRODUCT, product);
+                startActivity(i);
+
+                finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void saveAnswer(String question) {
@@ -128,5 +165,22 @@ public class SearchActivity extends AppCompatActivity {
                 });
 
         rvQuestion.setAdapter(adapter);
+    }
+
+    private Product filterProduct(String category,
+                                  String skinType,
+                                  String finishFit,
+                                  String shadeFamily,
+                                  List<Product> productList) {
+        for (Product product : productList) {
+            if (product.getCategory().equals(category) &&
+                    product.getSkinType().equals(skinType) &&
+                    product.getFinishFit().equals(finishFit) &&
+                    product.getShadeFamily().equals(shadeFamily)) {
+                return product;
+            }
+        }
+
+        return null;
     }
 }
