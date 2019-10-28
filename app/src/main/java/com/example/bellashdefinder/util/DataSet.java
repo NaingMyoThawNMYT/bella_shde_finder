@@ -3,6 +3,7 @@ package com.example.bellashdefinder.util;
 import android.graphics.Bitmap;
 
 import com.example.bellashdefinder.model.Answer;
+import com.example.bellashdefinder.model.Customer;
 import com.example.bellashdefinder.model.Product;
 
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class DataSet {
     public static final Map<String, Bitmap> photos = new HashMap<>();
 
     public static boolean isMember = false;
+
+    public static final List<Customer> customerList = new ArrayList<>();
+
+    public static final List<Product> productList = new ArrayList<>();
 
     public static int getSelectedCategoryPosition(String category) {
         for (int i = 0; i < categoryList.length; i++) {
@@ -108,5 +113,25 @@ public class DataSet {
         }
 
         return list;
+    }
+
+    public static Customer getCustomerById(String id) {
+        for (Customer customer : customerList) {
+            if (id.equals(customer.getId())) {
+                return customer;
+            }
+        }
+
+        return null;
+    }
+
+    public static Product getProductById(String id) {
+        for (Product product : productList) {
+            if (id.equals(product.getId())) {
+                return product;
+            }
+        }
+
+        return null;
     }
 }

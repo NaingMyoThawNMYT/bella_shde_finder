@@ -54,10 +54,10 @@ public class OrderDetailActivity extends AppCompatActivity {
 //                tvProductName.setText(order.getProduct().getName());
 //                tvProductPrice.setText(String.valueOf(NumberUtil.getOneDigit(order.getProduct().getPrice())));
 //                tvProductCategory.setText(order.getProduct().getCategory());
-//                tvCustomerName.setText(order.getCustomerId().getName());
-//                tvCustomerAddress.setText(order.getCustomerId().getAddress());
-//                tvCustomerPhone.setText(order.getCustomerId().getPhone());
-//                tvCustomerEmail.setText(order.getCustomerId().getEmail());
+                tvCustomerName.setText(order.getCustomer().getName());
+                tvCustomerAddress.setText(order.getCustomer().getAddress());
+                tvCustomerPhone.setText(order.getCustomer().getPhone());
+                tvCustomerEmail.setText(order.getCustomer().getEmail());
             }
         }
     }

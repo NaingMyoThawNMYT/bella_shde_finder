@@ -1,5 +1,6 @@
 package com.example.bellashdefinder.adapter;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.model.Order;
+import com.example.bellashdefinder.model.Product;
+import com.example.bellashdefinder.util.DataSet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.ViewHolder> {
@@ -20,6 +24,11 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     public OrderListAdapter(List<Order> dataSet, OnClickListener onClickListener) {
         this.dataSet = dataSet;
         this.onClickListener = onClickListener;
+    }
+
+    public void setDataSet(List<Order> dataSet) {
+        this.dataSet = dataSet;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -33,10 +42,28 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Order order = dataSet.get(holder.getAdapterPosition());
+        order.setCustomer(DataSet.getCustomerById(order.getCustomerId()));
+        final List<Product> productList = new ArrayList<>();
 
-//        holder.tvCustomer.setText(order.getCustomerId().getName());
-//        holder.tvProduct.setText(order.getProduct().getName());
-//        holder.tvAddress.setText(order.getCustomerId().getAddress());
+        order.setProductList(productList);
+
+        for (String id : order.getProductIdList()) {
+            productList.add(DataSet.getProductById(id));
+        }
+
+        holder.tvCustomer.setText(order.getCustomer().getName());
+
+        StringBuilder productNameStr = new StringBuilder();
+        for (Product product : productList) {
+            if (TextUtils.isEmpty(productNameStr)) {
+                productNameStr.append(", ");
+            }
+
+            productNameStr.append(product.getName());
+        }
+
+        holder.tvProduct.setText(productNameStr);
+        holder.tvAddress.setText(order.getCustomer().getAddress());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
