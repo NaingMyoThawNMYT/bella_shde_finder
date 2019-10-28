@@ -69,9 +69,12 @@ public class ProductListActivity extends AppCompatActivity {
             }
         });
 
-        final String[] categoryList = new String[4];
+        final String[] categoryList = new String[5];
         categoryList[0] = "All";
-        System.arraycopy(DataSet.categoryList, 0, categoryList, 1, 3);
+        for (int i = 0; i < DataSet.categoryList.length; i++) {
+            categoryList[i + 1] = DataSet.categoryList[i];
+        }
+
         final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
                 categoryList);

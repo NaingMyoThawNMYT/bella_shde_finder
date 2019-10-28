@@ -63,12 +63,16 @@ public class OrderListActivity extends AppCompatActivity {
     }
 
     private void fetchAndSetOrderList() {
+        DataSet.customerList.clear();
+        DataSet.productList.clear();
+
         // get order list
         tableOrder.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     dialog.dismiss();
+                    adapter.setDataSet(new ArrayList<Order>());
                     return;
                 }
 

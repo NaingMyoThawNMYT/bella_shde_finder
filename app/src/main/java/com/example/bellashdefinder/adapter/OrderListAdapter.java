@@ -42,7 +42,17 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Order order = dataSet.get(holder.getAdapterPosition());
+
+        if (order == null) {
+            return;
+        }
+
         order.setCustomer(DataSet.getCustomerById(order.getCustomerId()));
+
+        if (order.getCustomer() == null) {
+            return;
+        }
+
         final List<Product> productList = new ArrayList<>();
 
         order.setProductList(productList);
@@ -55,7 +65,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
 
         StringBuilder productNameStr = new StringBuilder();
         for (Product product : productList) {
-            if (TextUtils.isEmpty(productNameStr)) {
+            if (!TextUtils.isEmpty(productNameStr)) {
                 productNameStr.append(", ");
             }
 

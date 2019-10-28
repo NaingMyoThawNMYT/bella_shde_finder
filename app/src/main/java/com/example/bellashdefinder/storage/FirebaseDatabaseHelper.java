@@ -40,7 +40,7 @@ public class FirebaseDatabaseHelper {
         Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
         order.setId(String.valueOf(map.get("id")));
         order.setCustomerId(String.valueOf(map.get("customerId")));
-        order.setDiscountAmount(Double.valueOf(String.valueOf(map.get("discountAmount"))));
+        order.setDiscountPercent(Double.valueOf(String.valueOf(map.get("discountPercent"))));
         order.setProductIdList((List<String>) map.get("productIdList"));
 
         return order;

@@ -113,6 +113,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 if (product == null) {
                     Toast.makeText(SearchActivity.this, "No result found", Toast.LENGTH_SHORT).show();
+                    finish();
                     return;
                 }
 

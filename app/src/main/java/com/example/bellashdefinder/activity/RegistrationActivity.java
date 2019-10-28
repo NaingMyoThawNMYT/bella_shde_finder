@@ -83,7 +83,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     order.setId(tableOrder.push().getKey());
 
                     if (DataSet.isMember) {
-                        order.setDiscountAmount(5);
+                        order.setDiscountPercent(10);
                     }
 
                     tableOrder.child(order.getId()).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {

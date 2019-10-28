@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,18 +10,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_invoice">
+        android:layout_above="@+id/layout_total">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/img_v_product"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@drawable/ic_launcher_foreground" />
 
             <LinearLayout style="@style/FormFieldLayout">
 
@@ -30,42 +25,6 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_invoice_no"
-                    style="@style/FormRightFieldWithBackground" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/FormFieldLayout">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/FormLeftLabel"
-                    android:text="@string/name" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_product_name"
-                    style="@style/FormRightFieldWithBackground" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/FormFieldLayout">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/FormLeftLabel"
-                    android:text="@string/price" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_product_price"
-                    style="@style/FormRightFieldWithBackground" />
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/FormFieldLayout">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/FormLeftLabel"
-                    android:text="@string/category" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_product_category"
                     style="@style/FormRightFieldWithBackground" />
 
             </LinearLayout>
@@ -118,9 +77,39 @@
 
             </LinearLayout>
 
+            <TextView
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/item_list" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_order_item_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="400dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/product_list_item" />
+
         </LinearLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layout_total"
+        style="@style/FormFieldLayout"
+        android:layout_above="@+id/btn_invoice">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/FormLeftLabel"
+            android:text="@string/total" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_total"
+            style="@style/FormRightFieldWithBackground" />
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_invoice"
@@ -128,8 +117,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
         android:background="@drawable/bg_rounded"
-        android:onClick="showInvoicedCompleteDialog"
+        android:enabled="false"
+        android:onClick="deleteOrder"
         android:text="@string/invoice"
         android:textAllCaps="false" />
 
