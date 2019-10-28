@@ -24,6 +24,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,9 @@ public class ProductListActivity extends AppCompatActivity {
 
     private ProductListAdapter adapter;
     private ProgressDialog dialog;
+
+    private DatabaseReference tableProduct;
+    private StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,9 @@ public class ProductListActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
+
+        tableProduct = FirebaseDatabaseHelper.getTableProduct();
+        storageRef = FirebaseStorage.getInstance().getReference();
     }
 
     private void goToProductDetailActivity(Product product) {
@@ -100,7 +108,9 @@ public class ProductListActivity extends AppCompatActivity {
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+                tableProduct.child(product.getId()).removeValue();
+
+                storageRef.child(product.getId()).delete();
             }
         });
 

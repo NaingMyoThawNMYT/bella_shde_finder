@@ -74,6 +74,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             }
         });
 
+        holder.imgView.setImageBitmap(null);
+
         if (DataSet.photos.get(product.getId()) == null) {
             storageRef.child(product.getId()).getBytes(Long.MAX_VALUE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
                 @Override
