@@ -3,9 +3,12 @@ package com.example.bellashdefinder.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -28,7 +31,11 @@ import com.example.bellashdefinder.util.NumberUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ProductDetailActivity extends AppCompatActivity {
@@ -43,6 +50,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private AnswerListAdapter skinTypeAdapter, finishFitsAdapter, shadeFamilyAdapter;
     private ProgressDialog dialog;
+
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +92,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
     }
 
     public void saveProduct(View v) {
@@ -105,7 +116,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             return;
         }
 
-        Product product = new Product();
+        final Product product = new Product();
         product.setName(edtName.getText().toString());
         product.setPrice(Double.valueOf(edtPrice.getText().toString()));
         product.setCategory((String) categorySpinner.getSelectedItem());
@@ -122,10 +133,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         myRef.child(product.getId()).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                dialog.dismiss();
-
                 if (task.isSuccessful()) {
-                    finish();
+                    uploadImage(product.getId());
+                } else {
+                    dialog.dismiss();
                 }
             }
         });
@@ -168,6 +179,53 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     public void discard(View v) {
+        finish();
+    }
+
+    private void uploadImage(String key) {
+        // Get the data from an ImageView as bytes
+        imgView.setDrawingCacheEnabled(true);
+        imgView.buildDrawingCache();
+        Drawable drawable = imgView.getDrawable();
+        if (drawable == null || TextUtils.isEmpty(key)) {
+            showSuccessToastAndFinishActivity();
+            return;
+        }
+
+        Bitmap bitmap;
+        try {
+            bitmap = ((BitmapDrawable) drawable).getBitmap();
+        } catch (ClassCastException e) {
+            showSuccessToastAndFinishActivity();
+            return;
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        StorageReference storageReference = mStorageRef.child(key);
+        UploadTask uploadTask = storageReference.putBytes(data);
+
+        uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                dialog.dismiss();
+                if (task.isSuccessful()) {
+                    showSuccessToastAndFinishActivity();
+                } else {
+                    Toast.makeText(ProductDetailActivity.this,
+                            "Fail to upload photo",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void showSuccessToastAndFinishActivity() {
+        Toast.makeText(this,
+                "Saved successfully.",
+                Toast.LENGTH_SHORT).show();
         finish();
     }
 }
