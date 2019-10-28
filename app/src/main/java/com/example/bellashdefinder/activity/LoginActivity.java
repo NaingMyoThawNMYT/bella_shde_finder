@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.example.bellashdefinder.R;
+import com.example.bellashdefinder.util.DataSet;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -61,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (adminMode && !TextUtils.isEmpty(email) && !email.equals("admin@gmail.com")) {
+        if ((adminMode && !TextUtils.isEmpty(email) && !email.equals("admin@gmail.com")) ||
+                (!adminMode && !TextUtils.isEmpty(email) && email.equals("admin@gmail.com"))) {
             Toast.makeText(LoginActivity.this,
                     "Authentication failed.",
                     Toast.LENGTH_SHORT).show();
@@ -100,10 +102,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goToCustomerActivity() {
+        DataSet.isMember = true;
         goToCustomerActivity(null);
     }
 
     public void goToCustomerActivity(View v) {
         startActivity(new Intent(this, CustomerActivity.class));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        DataSet.isMember = false;
     }
 }

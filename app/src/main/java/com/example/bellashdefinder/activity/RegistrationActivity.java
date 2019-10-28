@@ -82,6 +82,10 @@ public class RegistrationActivity extends AppCompatActivity {
                     order.setProductIdList(DataSet.getCartProductIdList());
                     order.setId(tableOrder.push().getKey());
 
+                    if (DataSet.isMember) {
+                        order.setDiscountAmount(5);
+                    }
+
                     tableOrder.child(order.getId()).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

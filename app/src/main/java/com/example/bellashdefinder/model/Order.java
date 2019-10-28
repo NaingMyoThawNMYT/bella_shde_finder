@@ -8,6 +8,7 @@ public class Order implements Serializable {
     private String id;
     private String customerId;
     private List<String> productIdList = new ArrayList<>();
+    private double discountAmount;
 
     public String getId() {
         return id;
@@ -31,5 +32,13 @@ public class Order implements Serializable {
 
     public void setProductIdList(List<String> productIdList) {
         this.productIdList = productIdList;
+    }
+
+    public double getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public void setDiscountAmount(double discountAmount) {
+        this.discountAmount = discountAmount;
     }
 }

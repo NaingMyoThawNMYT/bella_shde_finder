@@ -25,6 +25,8 @@ public class DataSet {
 
     public static final Map<String, Bitmap> photos = new HashMap<>();
 
+    public static boolean isMember = false;
+
     public static int getSelectedCategoryPosition(String category) {
         for (int i = 0; i < categoryList.length; i++) {
             if (category.equals(categoryList[i])) {
