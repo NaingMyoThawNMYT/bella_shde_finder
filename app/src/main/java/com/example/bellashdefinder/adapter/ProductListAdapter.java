@@ -3,6 +3,8 @@ package com.example.bellashdefinder.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -19,15 +21,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> implements Filterable {
     private List<Product> dataSet;
+    private List<Product> filteredDataSet;
     private OnClickListener onClickListener;
     private StorageReference storageRef;
 
     public ProductListAdapter(List<Product> dataSet, OnClickListener onClickListener) {
         this.dataSet = dataSet;
+        this.filteredDataSet = dataSet;
         this.onClickListener = onClickListener;
 
         storageRef = FirebaseStorage.getInstance().getReference();
@@ -35,6 +40,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public void setDataSet(List<Product> dataSet) {
         this.dataSet = dataSet;
+        this.filteredDataSet = dataSet;
         notifyDataSetChanged();
     }
 
@@ -48,7 +54,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int p) {
-        final Product product = dataSet.get(holder.getAdapterPosition());
+        final Product product = filteredDataSet.get(holder.getAdapterPosition());
 
         holder.tvName.setText(product.getName());
         holder.tvPrice.setText(String.valueOf(NumberUtil.getOneDigit(product.getPrice())));
@@ -85,7 +91,39 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public int getItemCount() {
-        return dataSet == null ? 0 : dataSet.size();
+        return filteredDataSet == null ? 0 : filteredDataSet.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String searchTerm = charSequence.toString().trim().toLowerCase();
+
+                final List<Product> filteredList = new ArrayList<>();
+                if (searchTerm.isEmpty()) {
+                    filteredList.addAll(new ArrayList<>(dataSet));
+                } else {
+                    for (Product product : dataSet) {
+                        if (product.getCategory().toLowerCase().contains(searchTerm.toLowerCase())) {
+                            filteredList.add(product);
+                        }
+                    }
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredDataSet = (List<Product>) filterResults.values;
+
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public interface OnClickListener {

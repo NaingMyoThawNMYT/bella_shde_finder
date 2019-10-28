@@ -1,6 +1,7 @@
 package com.example.bellashdefinder.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +34,7 @@ public class ProductListActivity extends AppCompatActivity {
     private AppCompatSpinner categorySpinner;
 
     private ProductListAdapter adapter;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,21 +67,24 @@ public class ProductListActivity extends AppCompatActivity {
         final String[] categoryList = new String[4];
         categoryList[0] = "All";
         System.arraycopy(DataSet.categoryList, 0, categoryList, 1, 3);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+        final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
                 categoryList);
-        categorySpinner.setAdapter(adapter);
+        categorySpinner.setAdapter(categoryAdapter);
 
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ProductListActivity.this, categoryList[position], Toast.LENGTH_SHORT).show();
+                adapter.getFilter().filter(position == 0 ? "" : categoryList[position]);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Loading...");
     }
 
     private void goToProductDetailActivity(Product product) {
@@ -113,11 +117,17 @@ public class ProductListActivity extends AppCompatActivity {
 
     private void fetchAndSetProductList() {
         DatabaseReference tableProduct = FirebaseDatabaseHelper.getTableProduct();
+
+        dialog.show();
+
         // Read from the database
         tableProduct.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                dialog.dismiss();
                 adapter.setDataSet(parseProductList((Map<String, Object>) dataSnapshot.getValue()));
+                String filter = (String) categorySpinner.getSelectedItem();
+                adapter.getFilter().filter(filter.equals("All") ? "" : filter);
             }
 
             @Override
@@ -128,6 +138,10 @@ public class ProductListActivity extends AppCompatActivity {
 
     private List<Product> parseProductList(Map<String, Object> map) {
         List<Product> productList = new ArrayList<>();
+
+        if (map == null) {
+            return productList;
+        }
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             productList.add(parseProduct((Map) entry.getValue()));

@@ -25,6 +25,16 @@ public class DataSet {
 
     public static final Map<String, Bitmap> photos = new HashMap<>();
 
+    public static int getSelectedCategoryPosition(String category) {
+        for (int i = 0; i < categoryList.length; i++) {
+            if (category.equals(categoryList[i])) {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
     public static List<Answer> getSkinTypeList() {
         Answer a = new Answer();
         Answer b = new Answer();

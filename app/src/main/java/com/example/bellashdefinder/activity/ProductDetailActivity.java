@@ -95,6 +95,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 edtName.setText(product.getName());
                 edtPrice.setText(String.valueOf(NumberUtil.getOneDigit(product.getPrice())));
 
+                categorySpinner.setSelection(DataSet.getSelectedCategoryPosition(product.getCategory()));
                 skinTypeAdapter.setSelectedAnswer(product.getSkinType());
                 finishFitsAdapter.setSelectedAnswer(product.getFinishFit());
                 shadeFamilyAdapter.setSelectedAnswer(product.getShadeFamily());
