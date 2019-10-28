@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.adapter.OrderListAdapter;
-import com.example.bellashdefinder.model.Customer;
 import com.example.bellashdefinder.model.Order;
-import com.example.bellashdefinder.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,18 +28,18 @@ public class OrderListActivity extends AppCompatActivity {
 
             Order order = new Order();
 
-            Customer customer = new Customer();
-            customer.setName("Name" + i);
-            customer.setAddress("Address" + i);
-            customer.setPhone("Phone" + i);
-            customer.setEmail("Email" + i);
-            order.setCustomer(customer);
-
-            Product product = new Product();
-            product.setName("Product" + i);
-            product.setPrice(i);
-            product.setCategory("Category" + i);
-            order.setProduct(product);
+//            Customer customer = new Customer();
+//            customer.setName("Name" + i);
+//            customer.setAddress("Address" + i);
+//            customer.setPhone("Phone" + i);
+//            customer.setEmail("Email" + i);
+//            order.setCustomerId(customer);
+//
+//            Product product = new Product();
+//            product.setName("Product" + i);
+//            product.setPrice(i);
+//            product.setCategory("Category" + i);
+//            order.getProductIdList().add(product);
 
             orderList.add(order);
         }

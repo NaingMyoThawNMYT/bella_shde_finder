@@ -12,7 +12,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.model.Order;
-import com.example.bellashdefinder.util.NumberUtil;
 
 public class OrderDetailActivity extends AppCompatActivity {
     public static final String KEY_ORDER = "order";
@@ -52,13 +51,13 @@ public class OrderDetailActivity extends AppCompatActivity {
                 invoiceNo = String.valueOf(System.currentTimeMillis());
 
                 tvInvoiceNo.setText(invoiceNo);
-                tvProductName.setText(order.getProduct().getName());
-                tvProductPrice.setText(String.valueOf(NumberUtil.getOneDigit(order.getProduct().getPrice())));
-                tvProductCategory.setText(order.getProduct().getCategory());
-                tvCustomerName.setText(order.getCustomer().getName());
-                tvCustomerAddress.setText(order.getCustomer().getAddress());
-                tvCustomerPhone.setText(order.getCustomer().getPhone());
-                tvCustomerEmail.setText(order.getCustomer().getEmail());
+//                tvProductName.setText(order.getProduct().getName());
+//                tvProductPrice.setText(String.valueOf(NumberUtil.getOneDigit(order.getProduct().getPrice())));
+//                tvProductCategory.setText(order.getProduct().getCategory());
+//                tvCustomerName.setText(order.getCustomerId().getName());
+//                tvCustomerAddress.setText(order.getCustomerId().getAddress());
+//                tvCustomerPhone.setText(order.getCustomerId().getPhone());
+//                tvCustomerEmail.setText(order.getCustomerId().getEmail());
             }
         }
     }

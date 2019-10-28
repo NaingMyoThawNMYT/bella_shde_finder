@@ -97,4 +97,14 @@ public class DataSet {
 
         return list;
     }
+
+    public static List<String> getProductIdList() {
+        List<String> list = new ArrayList<>();
+
+        for (Product product : cart) {
+            list.add(product.getId());
+        }
+
+        return list;
+    }
 }

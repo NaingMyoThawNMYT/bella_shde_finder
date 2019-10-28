@@ -34,9 +34,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Order order = dataSet.get(holder.getAdapterPosition());
 
-        holder.tvCustomer.setText(order.getCustomer().getName());
-        holder.tvProduct.setText(order.getProduct().getName());
-        holder.tvAddress.setText(order.getCustomer().getAddress());
+//        holder.tvCustomer.setText(order.getCustomerId().getName());
+//        holder.tvProduct.setText(order.getProduct().getName());
+//        holder.tvAddress.setText(order.getCustomerId().getAddress());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

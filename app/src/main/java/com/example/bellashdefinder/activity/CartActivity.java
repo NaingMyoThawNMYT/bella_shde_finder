@@ -40,6 +40,8 @@ public class CartActivity extends AppCompatActivity {
         });
 
         rv.setAdapter(adapter);
+
+        findViewById(R.id.btn_shop_now).setEnabled(DataSet.cart.size() != 0);
     }
 
     private void goToResultActivity(Product product) {
@@ -58,6 +60,9 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 DataSet.cart.remove(product);
                 adapter.notifyDataSetChanged();
+
+                findViewById(R.id.btn_shop_now).setEnabled(DataSet.cart.size() != 0);
+
                 dialogInterface.dismiss();
             }
         });
