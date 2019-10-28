@@ -45,6 +45,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
     }
 
     public void registerAndOrder(View v) {
@@ -78,7 +79,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Order order = new Order();
                     order.setCustomerId(customer.getId());
-                    order.setProductIdList(DataSet.getProductIdList());
+                    order.setProductIdList(DataSet.getCartProductIdList());
                     order.setId(tableOrder.push().getKey());
 
                     tableOrder.child(order.getId()).setValue(order).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -94,8 +95,6 @@ public class RegistrationActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-                    showOrderSuccessDialog();
                 } else {
                     dialog.dismiss();
 
@@ -124,6 +123,7 @@ public class RegistrationActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                setResult(RESULT_OK);
                 finish();
             }
         });

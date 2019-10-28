@@ -90,6 +90,7 @@ public class ProductListActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
 
         tableProduct = FirebaseDatabaseHelper.getTableProduct();
         storageRef = FirebaseStorage.getInstance().getReference();

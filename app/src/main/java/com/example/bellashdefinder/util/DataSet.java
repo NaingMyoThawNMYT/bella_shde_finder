@@ -98,7 +98,7 @@ public class DataSet {
         return list;
     }
 
-    public static List<String> getProductIdList() {
+    public static List<String> getCartProductIdList() {
         List<String> list = new ArrayList<>();
 
         for (Product product : cart) {

@@ -68,6 +68,7 @@ public class SearchActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
     }
 
     public void back(View v) {

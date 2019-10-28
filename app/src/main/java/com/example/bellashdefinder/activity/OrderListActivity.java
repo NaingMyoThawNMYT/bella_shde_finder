@@ -39,7 +39,7 @@ public class OrderListActivity extends AppCompatActivity {
 //            product.setName("Product" + i);
 //            product.setPrice(i);
 //            product.setCategory("Category" + i);
-//            order.getProductIdList().add(product);
+//            order.getCartProductIdList().add(product);
 
             orderList.add(order);
         }

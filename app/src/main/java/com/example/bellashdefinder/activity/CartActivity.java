@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,8 @@ import com.example.bellashdefinder.model.Product;
 import com.example.bellashdefinder.util.DataSet;
 
 public class CartActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 12345;
+
     private RecyclerView rv;
     private ProductListAdapter adapter;
 
@@ -72,6 +75,15 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void goToRegistrationActivity(View v) {
-        startActivity(new Intent(this, RegistrationActivity.class));
+        startActivityForResult(new Intent(this, RegistrationActivity.class), REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            finish();
+        }
     }
 }

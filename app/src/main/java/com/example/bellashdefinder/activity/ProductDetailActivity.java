@@ -84,6 +84,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
 

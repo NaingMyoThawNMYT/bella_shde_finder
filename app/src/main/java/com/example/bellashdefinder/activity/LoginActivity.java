@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
     }
 
     public void login(View v) {
