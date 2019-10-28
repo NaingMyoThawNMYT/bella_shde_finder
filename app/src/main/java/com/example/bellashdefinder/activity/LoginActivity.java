@@ -99,6 +99,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goToCustomerActivity() {
+        goToCustomerActivity(null);
+    }
+
+    public void goToCustomerActivity(View v) {
         startActivity(new Intent(this, CustomerActivity.class));
     }
 }

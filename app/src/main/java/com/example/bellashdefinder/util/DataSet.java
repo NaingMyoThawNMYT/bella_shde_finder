@@ -1,10 +1,14 @@
 package com.example.bellashdefinder.util;
 
+import android.graphics.Bitmap;
+
 import com.example.bellashdefinder.model.Answer;
 import com.example.bellashdefinder.model.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DataSet {
 
@@ -18,6 +22,8 @@ public class DataSet {
             "Which shade family best fits your skin tone?"};
 
     public static final List<Product> cart = new ArrayList<>();
+
+    public static final Map<String, Bitmap> photos = new HashMap<>();
 
     public static List<Answer> getSkinTypeList() {
         Answer a = new Answer();

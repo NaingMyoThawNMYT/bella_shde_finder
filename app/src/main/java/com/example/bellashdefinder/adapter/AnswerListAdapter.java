@@ -86,6 +86,14 @@ public class AnswerListAdapter extends RecyclerView.Adapter<AnswerListAdapter.Vi
         return null;
     }
 
+    public void setSelectedAnswer(String answer) {
+        for (Answer a : dataSet) {
+            a.setSelected(answer.equals(a.getAnswer()));
+        }
+
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cv;
         private AppCompatTextView tvAnswer;

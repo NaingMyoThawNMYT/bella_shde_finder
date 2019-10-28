@@ -26,6 +26,7 @@ import com.example.bellashdefinder.adapter.AnswerListAdapter;
 import com.example.bellashdefinder.model.Answer;
 import com.example.bellashdefinder.model.Product;
 import com.example.bellashdefinder.storage.FirebaseDatabaseHelper;
+import com.example.bellashdefinder.util.BitmapUtil;
 import com.example.bellashdefinder.util.DataSet;
 import com.example.bellashdefinder.util.NumberUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,6 +53,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ProgressDialog dialog;
 
     private StorageReference mStorageRef;
+    private Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +67,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         rvFinishFits = findViewById(R.id.rv_finish_fits);
         rvShadeFamily = findViewById(R.id.rv_shade_family);
         imgView = findViewById(R.id.img_v_product);
-
-        Bundle b = getIntent().getExtras();
-        if (b != null && b.containsKey(KEY_PRODUCT)) {
-            Product product = (Product) b.get(KEY_PRODUCT);
-
-            if (product != null) {
-                edtName.setText(product.getName());
-                edtPrice.setText(String.valueOf(NumberUtil.getOneDigit(product.getPrice())));
-            }
-        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,
@@ -94,6 +86,22 @@ public class ProductDetailActivity extends AppCompatActivity {
         dialog.setMessage("Loading...");
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        Bundle b = getIntent().getExtras();
+        if (b != null && b.containsKey(KEY_PRODUCT)) {
+            product = (Product) b.get(KEY_PRODUCT);
+
+            if (product != null) {
+                edtName.setText(product.getName());
+                edtPrice.setText(String.valueOf(NumberUtil.getOneDigit(product.getPrice())));
+
+                skinTypeAdapter.setSelectedAnswer(product.getSkinType());
+                finishFitsAdapter.setSelectedAnswer(product.getFinishFit());
+                shadeFamilyAdapter.setSelectedAnswer(product.getShadeFamily());
+            }
+        }
+
+        fetchAndSetPhoto(product == null ? null : product.getId());
     }
 
     public void saveProduct(View v) {
@@ -116,7 +124,10 @@ public class ProductDetailActivity extends AppCompatActivity {
             return;
         }
 
-        final Product product = new Product();
+        if (product == null) {
+            product = new Product();
+        }
+
         product.setName(edtName.getText().toString());
         product.setPrice(Double.valueOf(edtPrice.getText().toString()));
         product.setCategory((String) categorySpinner.getSelectedItem());
@@ -126,7 +137,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         DatabaseReference myRef = FirebaseDatabaseHelper.getTableProduct();
 
-        product.setId(myRef.push().getKey());
+        if (TextUtils.isEmpty(product.getId())) {
+            product.setId(myRef.push().getKey());
+        }
 
         dialog.show();
 
@@ -227,5 +240,26 @@ public class ProductDetailActivity extends AppCompatActivity {
                 "Saved successfully.",
                 Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    private void fetchAndSetPhoto(String key) {
+        if (TextUtils.isEmpty(key)) {
+            return;
+        }
+
+        if (DataSet.photos.get(key) != null) {
+            imgView.setImageBitmap(DataSet.photos.get(key));
+            return;
+        }
+
+        mStorageRef.child(product.getId()).getBytes(Long.MAX_VALUE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+            @Override
+            public void onComplete(@NonNull Task<byte[]> task) {
+                if (task.isSuccessful()) {
+                    DataSet.photos.put(product.getId(), BitmapUtil.byteArrayToBitmap(task.getResult()));
+                    imgView.setImageBitmap(DataSet.photos.get(product.getId()));
+                }
+            }
+        });
     }
 }

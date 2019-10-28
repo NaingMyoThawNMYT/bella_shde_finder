@@ -11,17 +11,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bellashdefinder.R;
 import com.example.bellashdefinder.model.Product;
+import com.example.bellashdefinder.util.BitmapUtil;
+import com.example.bellashdefinder.util.DataSet;
 import com.example.bellashdefinder.util.NumberUtil;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
     private List<Product> dataSet;
     private OnClickListener onClickListener;
+    private StorageReference storageRef;
 
     public ProductListAdapter(List<Product> dataSet, OnClickListener onClickListener) {
         this.dataSet = dataSet;
         this.onClickListener = onClickListener;
+
+        storageRef = FirebaseStorage.getInstance().getReference();
     }
 
     public void setDataSet(List<Product> dataSet) {
@@ -38,7 +47,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int p) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int p) {
         final Product product = dataSet.get(holder.getAdapterPosition());
 
         holder.tvName.setText(product.getName());
@@ -58,6 +67,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 return true;
             }
         });
+
+        if (DataSet.photos.get(product.getId()) == null) {
+            storageRef.child(product.getId()).getBytes(Long.MAX_VALUE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                @Override
+                public void onComplete(@NonNull Task<byte[]> task) {
+                    if (task.isSuccessful()) {
+                        DataSet.photos.put(product.getId(), BitmapUtil.byteArrayToBitmap(task.getResult()));
+                        holder.imgView.setImageBitmap(DataSet.photos.get(product.getId()));
+                    }
+                }
+            });
+        } else {
+            holder.imgView.setImageBitmap(DataSet.photos.get(product.getId()));
+        }
     }
 
     @Override
