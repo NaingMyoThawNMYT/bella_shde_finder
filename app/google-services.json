@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "45991413240",
+    "firebase_url": "https://bella-shade-finder.firebaseio.com",
+    "project_id": "bella-shade-finder",
+    "storage_bucket": "bella-shade-finder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45991413240:android:7566e606e31e3b398e820d",
+        "android_client_info": {
+          "package_name": "com.example.bellashdefinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45991413240-25i0duo6d8qsmi04625n1kale5rg8764.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bellashdefinder",
+            "certificate_hash": "f867b6ae942b87793d849af338f54ea5cd9d71c5"
+          }
+        },
+        {
+          "client_id": "45991413240-0k5h938n9bkbj2ad65nb9fobk0emrppd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgVo-f8OUAwmQvnGz-a3PW1oS4ELYnt0I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45991413240-0k5h938n9bkbj2ad65nb9fobk0emrppd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
